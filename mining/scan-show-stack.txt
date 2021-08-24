@@ -1,0 +1,25 @@
+Found: https://www.reddit.com/r/starbase/comments/p6eb96/material_scanner_script_for_anyone_interested/
+Author: u/igmolicious
+
+Setup:
+
+You will need a material scanner, a text display, and a button. The text display should be named Scan in order for the script to run without changes. The button should be named SO (I use a 12x12 button instead of a hybrid button to save space on my dashboard, but you can use virtually any 1/0 toggle).
+
+On the material scanner, all of the fields will need to be renamed. The names for each field should be:
+
+Active -> SO
+Index -> Id
+ScanResults -> SR
+Material -> Ma
+Volume -> Vk
+Scan -> SS
+Reset -> SRe
+The yolol script can be run on a basic chip, and is the following lines:
+
+IF :SO==0 THEN :Scan="\nNO RESULTS" goto 1 ELSE :Id=0 END :SRe=1 i=0
+n="\n" IF :SR>0 THEN o="" i=0 goto 3 ELSE :SS=1 goto 1 END
+IF i<3 THEN i+=1 ELSE i=0 goto 6 END
+IF :Id<:SR THEN goto 5 ELSE goto 3 END
+IF :Vk>0 THEN o+=n+:Ma+n+(:Vk/1728)+" stacks" :Id+=1 goto 3 END 
+:Scan=o IF :Id<:SR THEN o="" goto 3 END goto 1
+The scanner will constantly scan, updating when it scans something successfully. If there are more than 3 components, the component list will be broken down into pages of 3 that display for about a half second each.
